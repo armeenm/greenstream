@@ -1,9 +1,8 @@
-## Clock signal 12 MHz
+## 12MHz Clock ##
 set_property -dict {PACKAGE_PIN L17 IOSTANDARD LVCMOS33} [get_ports sysclk]
-#create_clock -name sys_clk_pin -period 83.33 -waveform {0 41.66} [get_ports {sysclk}];
 
 
-## LEDs
+## LEDs ##
 set_property -dict {PACKAGE_PIN A17 IOSTANDARD LVCMOS33} [get_ports led_start]
 set_property -dict {PACKAGE_PIN C16 IOSTANDARD LVCMOS33} [get_ports led_rst]
 
@@ -12,13 +11,12 @@ set_property -dict {PACKAGE_PIN B16 IOSTANDARD LVCMOS33} [get_ports nled_g]
 set_property -dict {PACKAGE_PIN C17 IOSTANDARD LVCMOS33} [get_ports nled_r]
 
 
-## Buttons
+## Buttons ##
 set_property -dict {PACKAGE_PIN A18 IOSTANDARD LVCMOS33} [get_ports btn_rst]
 set_property -dict {PACKAGE_PIN B18 IOSTANDARD LVCMOS33} [get_ports btn_start]
 
 
-## GPIO Pins
-## Pins 15 and 16 should remain commented if using them as analog inputs
+## GPIO Pins ##
 set_property -dict {PACKAGE_PIN M3 IOSTANDARD LVCMOS33} [get_ports {addr[16]}]
 set_property -dict {PACKAGE_PIN L3 IOSTANDARD LVCMOS33} [get_ports {addr[15]}]
 set_property -dict {PACKAGE_PIN A16 IOSTANDARD LVCMOS33} [get_ports {addr[12]}]
@@ -49,18 +47,12 @@ set_property -dict {PACKAGE_PIN U8 IOSTANDARD LVCMOS33} [get_ports {addr[14]}]
 set_property -dict {PACKAGE_PIN V8 IOSTANDARD LVCMOS33} [get_ports nwe]
 
 
-## UART
-#set_property -dict { PACKAGE_PIN J18   IOSTANDARD LVCMOS33 } [get_ports { uart_rxd_out }]; #IO_L7N_T1_D10_14 Sch=uart_rxd_out
-#set_property -dict { PACKAGE_PIN J17   IOSTANDARD LVCMOS33 } [get_ports { uart_txd_in  }]; #IO_L7P_T1_D09_14 Sch=uart_txd_in
+## UART ##
+set_property -dict {PACKAGE_PIN J18 IOSTANDARD LVCMOS33} [get_ports {rxd_out}];
+set_property -dict {PACKAGE_PIN J17 IOSTANDARD LVCMOS33} [get_ports {txd_in}];
 
 
-## QSPI
-#set_property -dict { PACKAGE_PIN K19   IOSTANDARD LVCMOS33 } [get_ports { qspi_cs    }]; #IO_L6P_T0_FCS_B_14 Sch=qspi_cs
-#set_property -dict { PACKAGE_PIN D18   IOSTANDARD LVCMOS33 } [get_ports { qspi_dq[0] }]; #IO_L1P_T0_D00_MOSI_14 Sch=qspi_dq[0]
-#set_property -dict { PACKAGE_PIN D19   IOSTANDARD LVCMOS33 } [get_ports { qspi_dq[1] }]; #IO_L1N_T0_D01_DIN_14 Sch=qspi_dq[1]
-#set_property -dict { PACKAGE_PIN G18   IOSTANDARD LVCMOS33 } [get_ports { qspi_dq[2] }]; #IO_L2P_T0_D02_14 Sch=qspi_dq[2]
-#set_property -dict { PACKAGE_PIN F18   IOSTANDARD LVCMOS33 } [get_ports { qspi_dq[3] }]; #IO_L2N_T0_D03_14 Sch=qspi_dq[3]
-
+## Misc. ##
 set_property BITSTREAM.GENERAL.COMPRESS TRUE [current_design]
 set_property CONFIG_MODE SPIx4 [current_design]
 set_property BITSTREAM.CONFIG.CONFIGRATE 33 [current_design]

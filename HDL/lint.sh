@@ -1,2 +1,2 @@
 #!/bin/sh
-verilator -sv --lint-only top.sv uart.sv
+verilator -sv --lint-only top.sv uart.sv uart_rcv.sv

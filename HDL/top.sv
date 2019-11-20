@@ -3,6 +3,7 @@ module top(
     input  logic         btn_rst,
     input  logic         btn_start,
     input  logic         btn_read,
+    input  logic         txd_in,
 
     output logic  [16:0] addr,
     output logic         nce,
@@ -13,6 +14,7 @@ module top(
     output logic         nled_r,
     output logic         nled_g,
     output logic         nled_b,
+    output logic         rxd_out,
 
     inout  logic  [7:0]  data_io
 );
@@ -41,14 +43,18 @@ fifo_generator_0 fifo(
 );
 
 // UART //
+logic start_fh, start_rb;
 uart uart(
-    .clk   (clk),
-    .rst   (rst),
+    .clk      (clk),
+    .rst      (rst),
+    .start_fh (start_fh),
+    .start_rb (start_rb),
+    .full     (fifo_full),
+    .txd_in   (txd_in),
     
-    .full  (fifo_full),
-    
-    .data  (fifo_din),
-    .wr_en (fifo_wr_en)
+    .data     (fifo_din),
+    .wr_en    (fifo_wr_en),
+    .rxd_out  (rxd_out)
 );
 
 // State //
