@@ -1,20 +1,20 @@
 module top(
-    inout  logic  [7:0]  data_io,
+    input  logic         sysclk, // 12MHz
+    input  logic         btn_rst,
+    input  logic         btn_start,
+    input  logic         btn_read,
+
     output logic  [16:0] addr,
     output logic         nce,
     output logic         noe,
     output logic         nwe,
-
     output logic         led_start,
     output logic         led_rst,
     output logic         nled_r,
     output logic         nled_g,
     output logic         nled_b,
-    
-    input  logic         sysclk, // 12MHz
-    input  logic         btn_rst,
-    input  logic         btn_start,
-    input  logic         btn_read
+
+    inout  logic  [7:0]  data_io
 );
 
 // Clock //
@@ -22,6 +22,33 @@ logic clk; // 7MHz
 clk_wiz_0 clk_wiz(
     .clk_in  (sysclk),
     .clk_out (clk)
+);
+
+// FIFO //
+logic       fifo_full, fifo_wr_en, fifo_empty, fifo_rd_en;
+logic [7:0] fifo_din, fifo_dout;
+fifo_generator_0 fifo(
+    .srst        (rst),
+    .clk         (clk),
+
+    .full        (fifo_full),
+    .din         (fifo_din),
+    .wr_en       (fifo_wr_en),
+
+    .empty       (fifo_empty),
+    .dout        (fifo_dout),
+    .rd_en       (fifo_rd_en)
+);
+
+// UART //
+uart uart(
+    .clk   (clk),
+    .rst   (rst),
+    
+    .full  (fifo_full),
+    
+    .data  (fifo_din),
+    .wr_en (fifo_wr_en)
 );
 
 // State //
