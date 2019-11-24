@@ -26,20 +26,37 @@ clk_wiz_0 clk_wiz(
     .clk_out (clk)
 );
 
-// FIFO //
-logic       fifo_full, fifo_wr_en, fifo_empty, fifo_rd_en;
-logic [7:0] fifo_din, fifo_dout;
-fifo_generator_0 fifo(
+// FIFOs //
+logic       ig_full, ig_wr_en, ig_empty, ig_rd_en;
+logic [7:0] ig_din, ig_dout;
+// Ingress //
+fifo_generator_0 ig_fifo(
     .srst        (rst),
     .clk         (clk),
 
-    .full        (fifo_full),
-    .din         (fifo_din),
-    .wr_en       (fifo_wr_en),
+    .full        (ig_full),
+    .din         (ig_din),
+    .wr_en       (ig_wr_en),
 
-    .empty       (fifo_empty),
-    .dout        (fifo_dout),
-    .rd_en       (fifo_rd_en)
+    .empty       (ig_empty),
+    .dout        (ig_dout),
+    .rd_en       (ig_rd_en)
+);
+
+// Egress //
+logic       eg_full, eg_wr_en, eg_empty, eg_rd_en;
+logic [7:0] eg_din, eg_dout;
+fifo_generator_0 eg_fifo(
+    .srst        (rst),
+    .clk         (clk),
+
+    .full        (eg_full),
+    .din         (eg_din),
+    .wr_en       (eg_wr_en),
+
+    .empty       (eg_empty),
+    .dout        (eg_dout),
+    .rd_en       (eg_rd_en)
 );
 
 // UART //
@@ -49,11 +66,14 @@ uart uart(
     .rst      (rst),
     .start_fh (start_fh),
     .start_rb (start_rb),
-    .full     (fifo_full),
     .txd_in   (txd_in),
+    .full     (ig_full),
+    .empty    (eg_empty),
+    .din      (eg_dout),
     
-    .data     (fifo_din),
-    .wr_en    (fifo_wr_en),
+    .dout     (ig_din),
+    .wr_en    (ig_wr_en),
+    .rd_en    (eg_rd_en),
     .rxd_out  (rxd_out)
 );
 
@@ -65,20 +85,20 @@ writer_t writer_state;
 logic [3:0] rst_cnt = '0;
 logic       int_rst  = 1;
 logic       rst;
-assign rst = btn_rst | int_rst;
+assign      rst = btn_rst | int_rst;
 
 // LED //
 logic [2:0] led_rgb;
-assign nled_r    = ~led_rgb[2];
-assign nled_g    = ~led_rgb[1];
-assign nled_b    = ~led_rgb[0];
-assign led_rst   = rst;
-assign led_start = btn_start;
+assign      nled_r    = ~led_rgb[2];
+assign      nled_g    = ~led_rgb[1];
+assign      nled_b    = ~led_rgb[0];
+assign      led_rst   = rst;
+assign      led_start = btn_start;
 
 // SDP //
-logic [1:0] sdp_cnt = '0;
-shortint addr_sdp[3] = '{'h5555, 'h2AAA, 'h5555};
-byte data_sdp[3] = '{'hAA, 'h55, 'hA0};
+logic    [1:0] sdp_cnt     = '0;
+shortint       addr_sdp[3] = '{'h5555, 'h2AAA, 'h5555};
+byte           data_sdp[3] = '{'hAA, 'h55, 'hA0};
 
 // Data //
 typedef enum logic {IN = 0, OUT = 1} direc_t;

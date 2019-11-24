@@ -1,5 +1,5 @@
 module uart_rcv
-    #(parameter CYCLES_PER_BIT = 0)(
+    #(parameter WAIT_TIME = 0)(
     input  logic       clk,
     input  logic       rst,
     input  logic       txd_in,
@@ -8,7 +8,7 @@ module uart_rcv
     output logic       valid
 );
 
-typedef enum logic [4:0] {IDLE, START, DATA, STOP, FINISH} rcv_t;
+typedef enum logic [3:0] {IDLE, START, DATA, FINISH} rcv_t;
 rcv_t rcv_state;
 
 logic din = 1, din_r = 1;
@@ -32,7 +32,7 @@ always_ff @(posedge clk) begin
             end
 
             START: begin
-                if (cycle_cnt == (CYCLES_PER_BIT - 1)/2) begin
+                if (cycle_cnt == $floor(WAIT_TIME/2)) begin
                     cycle_cnt <= '0;
                     // Ensure the bit is still low
                     if (din == 0) begin
@@ -44,26 +44,18 @@ always_ff @(posedge clk) begin
             end
 
             DATA: begin
-                if (cycle_cnt >= CYCLES_PER_BIT - 1) begin
+                if (cycle_cnt == WAIT_TIME - 1) begin
                     cycle_cnt <= '0;
                     data[idx] <= din;
 
                     if (idx < 7)
                         idx <= idx + 1;
                     else begin
+                        valid     <= 1;
                         idx       <= '0;
-                        rcv_state <= STOP;
+                        rcv_state <= FINISH;
                     end
 
-                end else
-                    cycle_cnt <= cycle_cnt + 1;
-            end
-
-            STOP: begin
-                if (cycle_cnt <= CYCLES_PER_BIT - 1) begin
-                    valid     <= 1;
-                    cycle_cnt <= '0;
-                    rcv_state <= FINISH;
                 end else
                     cycle_cnt <= cycle_cnt + 1;
             end
@@ -73,7 +65,8 @@ always_ff @(posedge clk) begin
                 rcv_state <= IDLE;
             end
 
-            default: rcv_state <= IDLE;
+            default:
+                rcv_state <= IDLE;
         endcase
     end
 end
