@@ -11,7 +11,8 @@ module uart_rcv
 typedef enum logic [3:0] {IDLE, START, DATA, FINISH} rcv_t;
 rcv_t rcv_state;
 
-logic din = 1, din_r = 1;
+logic       din       = 1;
+logic       din_r     = 1;
 logic [7:0] cycle_cnt = '0;
 logic [2:0] idx       = '0;
 

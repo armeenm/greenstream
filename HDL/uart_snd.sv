@@ -1,17 +1,17 @@
-module uart_snd
-    #(parameter WAIT_TIME = 0)(
-    input  logic       clk,
-    input  logic       rst,
-    input  logic [7:0] data,
-    input  logic       valid,
+import common::*;
 
-    output logic       active,
-    output logic       rxd_out,
-    output logic       done
+module uart_snd
+    #(parameter WAIT_TIME = 0)
+    ( input  logic       clk
+    , input  logic       rst
+    , output logic       active
+    , output logic       done
+
+    , input  fifo_rd     eg_rd
+    , output logic       rxd_out
 );
 
-typedef enum logic [3:0] {IDLE, START, DATA, FINISH} snd_t;
-snd_t snd_state;
+uart_sub_st_t st;
 
 logic [7:0] data_r    = '0;
 logic [7:0] cycle_cnt = '0;
@@ -21,12 +21,12 @@ always_ff @(posedge clk) begin
     if (rst) begin
         active    <= 0;
         done      <= 0;
-        snd_state <= IDLE;
+        st        <= IDLE;
         data_r    <= '0;
         cycle_cnt <= '0;
         idx       <= '0;
     end else begin
-        case (snd_state)
+        case (st)
             IDLE: begin
                 rxd_out <= 1;
                 done    <= 0;
