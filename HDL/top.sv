@@ -1,34 +1,46 @@
-module top(
-    input  logic         sysclk, // 12MHz
-    input  logic         btn_rst,
-    input  logic         btn_start,
-    input  logic         btn_read,
-    input  logic         txd_in,
+import common::*;
 
-    output logic  [16:0] addr,
-    output logic         nce,
-    output logic         noe,
-    output logic         nwe,
-    output logic         led_start,
-    output logic         led_rst,
-    output logic         nled_r,
-    output logic         nled_g,
-    output logic         nled_b,
-    output logic         rxd_out,
+module top
+    (
+    // Control //
+      input  logic         sys_clk // 12MHz
+    , input  logic         btn_rst
+    , input  logic         btn_start
+    , input  logic         btn_read
 
-    inout  logic  [7:0]  data_io
+    // UART //
+    , input  logic         txd_in
+    , output logic         rxd_out
+
+    // EEPROM //
+    , output logic  [16:0] addr
+    , inout  logic  [7:0]  data_io
+    , output logic         nce
+    , output logic         noe
+    , output logic         nwe
+
+    // Status //
+    , output logic         led_start
+    , output logic         led_rst
+    , output logic         nled_r
+    , output logic         nled_g
+    , output logic         nled_b
 );
 
-// Clock //
-logic clk; // 7MHz
+// Control {{{
+ctrl top_st;
+
+
+logic eeprom_clk; // 7MHz
 clk_wiz_0 clk_wiz(
-    .clk_in  (sysclk),
-    .clk_out (clk)
+    .clk_in  (sys_clk),
+    .clk_out (eeprom_clk)
 );
+// }}}
 
 // FIFOs //
-logic       ig_full, ig_wr_en, ig_empty, ig_rd_en;
-logic [7:0] ig_din, ig_dout;
+fifo_rd ig_rd;
+fifo_wr ig_wr;
 // Ingress //
 fifo_generator_0 ig_fifo(
     .srst        (rst),
