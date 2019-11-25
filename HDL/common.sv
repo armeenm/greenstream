@@ -11,6 +11,8 @@ typedef enum logic [3:0]
     , FINISH
 } st_t;
 
+endpackage
+
 interface ctrl
     ( input  logic clk
     , input  logic rst
@@ -32,5 +34,3 @@ interface fifo_wr
     , output logic       en
 );
 endinterface
-
-endpackage
