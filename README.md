@@ -11,4 +11,4 @@ Follow the constraints file to figure out how to wire it up.
 
 # History
 
-I wrote this for my Fall '19 ECE 110 final project.
+I wrote this for my Fall '19 ECE 110 @ UIUC final project.
