@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="sim_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="sim" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="10000020000fs"></ZoomEndTime>
+      <Cursor1Time time="1000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="175"></NameColumnWidth>
+      <ValueColumnWidth column_width="142"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="12" />
+   <wvobject type="logic" fp_name="/sim/dut/sysclk">
+      <obj_property name="ElementShortName">sysclk</obj_property>
+      <obj_property name="ObjectShortName">sysclk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/sim/dut/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/sim/nce">
+      <obj_property name="ElementShortName">nce</obj_property>
+      <obj_property name="ObjectShortName">nce</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/sim/noe">
+      <obj_property name="ElementShortName">noe</obj_property>
+      <obj_property name="ObjectShortName">noe</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/sim/dut/we">
+      <obj_property name="ElementShortName">we</obj_property>
+      <obj_property name="ObjectShortName">we</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/sim/nwe">
+      <obj_property name="ElementShortName">nwe</obj_property>
+      <obj_property name="ObjectShortName">nwe</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/sim/rst">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/sim/start">
+      <obj_property name="ElementShortName">start</obj_property>
+      <obj_property name="ObjectShortName">start</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim/addr">
+      <obj_property name="ElementShortName">addr[16:0]</obj_property>
+      <obj_property name="ObjectShortName">addr[16:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim/dut/data_io">
+      <obj_property name="ElementShortName">data_io[7:0]</obj_property>
+      <obj_property name="ObjectShortName">data_io[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim/dut/writer_state">
+      <obj_property name="ElementShortName">writer_state[5:0]</obj_property>
+      <obj_property name="ObjectShortName">writer_state[5:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/sim/dut/led_rgb">
+      <obj_property name="ElementShortName">led_rgb[2:0]</obj_property>
+      <obj_property name="ObjectShortName">led_rgb[2:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+</wave_config>
